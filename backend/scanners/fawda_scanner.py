@@ -133,9 +133,16 @@ def generate_signal(symbol, tf, df, nakel_df=None):
     last_close = df.iloc[-1]["Close"]
     signal_codes = []
     if nakel_signal:
-        signal_codes.append(nakel_signal)
+        # Split concatenated signals like "(W-B 23.6)🚀(FB-B)" into individual codes
+        import re
+        matches = re.findall(r"\((.*?)\)", nakel_signal)
+        for m in matches:
+            # Remove emojis and keep only the code text
+            clean_code = re.sub(r"[^\w\s\-\.\%]", "", m).strip()
+            if clean_code:
+                signal_codes.append(clean_code)
     if hadena_signal:
-        signal_codes.append(f"{hadena_type}_{hadena_signal}")
+        signal_codes.append(hadena_type)
     return {
         "scanner_type": "fawda",
         "symbol": symbol.upper(),
@@ -276,8 +283,8 @@ def manual_scan_all(limit: int = 10):
             except Exception as e:
                 print(f"⚠️ Error seeding {symbol.upper()} {tf}: {e}")
             if idx % 50 == 0 and idx > 0:
-                time.sleep(2)
-        time.sleep(1)
+                time.sleep(0.5)
+        time.sleep(0.5)
 
 # =========================
 # MAIN
