@@ -2,15 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles for SignalVerse */
+/* Custom global styles */
 body {
-  @apply bg-gray-50 text-gray-900;
-}
-
-table {
-  @apply w-full border-collapse;
-}
-
-th, td {
-  @apply border border-gray-300 p-2;
+  background-color: #f9fafb; /* Tailwind's gray-50 */
+  color: #111827; /* Tailwind's gray-900 */
 }
